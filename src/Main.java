@@ -8,6 +8,7 @@ public class Main {
         UserService userService = new UserService();
         LoginService loginService = new LoginService();
         AccountService accountService = new AccountService();
+        BankingService bankingService = new BankingService();
 
         System.out.println("===== SMART BANKING MANAGEMENT SYSTEM =====");
 
@@ -28,14 +29,32 @@ public class Main {
             int userId = loginService.login(sc);
 
             if (userId != -1) {
-                System.out.println("1. Create Bank Account");
-                System.out.println("2. Exit");
+
+                System.out.println("1. Create Account");
+                System.out.println("2. Deposit");
+                System.out.println("3. Withdraw");
+                System.out.println("4. Exit");
 
                 System.out.print("Enter your choice: ");
                 int accountChoice = sc.nextInt();
 
                 if (accountChoice == 1) {
                     accountService.createAccount(sc, userId);
+
+                } else if (accountChoice == 2) {
+                    System.out.print("Enter Account ID: ");
+                    int accountId = sc.nextInt();
+
+                    bankingService.deposit(sc, accountId);
+
+                } else if (accountChoice == 3) {
+                    System.out.print("Enter Account ID: ");
+                    int accountId = sc.nextInt();
+
+                    bankingService.withdraw(sc, accountId);
+
+                } else {
+                    System.out.println("Thank you!");
                 }
             }
 
