@@ -9,6 +9,8 @@ public class Main {
         LoginService loginService = new LoginService();
         AccountService accountService = new AccountService();
         BankingService bankingService = new BankingService();
+        TransactionService transactionService = new TransactionService();
+        TransferService transferService = new TransferService();
 
         System.out.println("===== SMART BANKING MANAGEMENT SYSTEM =====");
 
@@ -34,7 +36,9 @@ public class Main {
                 System.out.println("2. Deposit");
                 System.out.println("3. Withdraw");
                 System.out.println("4. Check Balance");
-                System.out.println("5. Exit");
+                System.out.println("5. Transaction History");
+                System.out.println("6. Transfer Money");
+                System.out.println("7. Exit");
 
                 System.out.print("Enter your choice: ");
                 int accountChoice = sc.nextInt();
@@ -65,6 +69,20 @@ public class Main {
                     bankingService.checkBalance(sc, accountId);
 
                 } else if (accountChoice == 5) {
+
+                    System.out.print("Enter Account ID: ");
+                    int accountId = sc.nextInt();
+
+                    transactionService.showTransactions(sc, accountId);
+
+                } else if (accountChoice == 6) {
+
+                    System.out.print("Enter Your Account ID: ");
+                    int accountId = sc.nextInt();
+
+                    transferService.transfer(sc, accountId);
+
+                } else if (accountChoice == 7) {
 
                     System.out.println("Thank you!");
 
