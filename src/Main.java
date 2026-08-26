@@ -33,28 +33,44 @@ public class Main {
                 System.out.println("1. Create Account");
                 System.out.println("2. Deposit");
                 System.out.println("3. Withdraw");
-                System.out.println("4. Exit");
+                System.out.println("4. Check Balance");
+                System.out.println("5. Exit");
 
                 System.out.print("Enter your choice: ");
                 int accountChoice = sc.nextInt();
 
                 if (accountChoice == 1) {
+
                     accountService.createAccount(sc, userId);
 
                 } else if (accountChoice == 2) {
+
                     System.out.print("Enter Account ID: ");
                     int accountId = sc.nextInt();
 
                     bankingService.deposit(sc, accountId);
 
                 } else if (accountChoice == 3) {
+
                     System.out.print("Enter Account ID: ");
                     int accountId = sc.nextInt();
 
                     bankingService.withdraw(sc, accountId);
 
-                } else {
+                } else if (accountChoice == 4) {
+
+                    System.out.print("Enter Account ID: ");
+                    int accountId = sc.nextInt();
+
+                    bankingService.checkBalance(sc, accountId);
+
+                } else if (accountChoice == 5) {
+
                     System.out.println("Thank you!");
+
+                } else {
+
+                    System.out.println("Invalid choice");
                 }
             }
 
