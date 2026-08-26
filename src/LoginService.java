@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class LoginService {
 
-    public boolean login(Scanner sc) {
+    public int login(Scanner sc) {
 
         System.out.print("Enter email: ");
         String email = sc.nextLine();
@@ -28,8 +28,11 @@ public class LoginService {
             if (rs.next()) {
                 System.out.println("Login successful!");
                 System.out.println("Welcome, " + rs.getString("name"));
+
+                int userId = rs.getInt("user_id");
+
                 con.close();
-                return true;
+                return userId;
             }
 
             System.out.println("Invalid email or password");
@@ -39,6 +42,6 @@ public class LoginService {
             System.out.println("Login failed");
         }
 
-        return false;
+        return -1;
     }
 }
