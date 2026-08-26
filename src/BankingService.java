@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class BankingService {
 
-    // Deposit money
     public void deposit(Scanner sc, int accountId) {
 
         System.out.print("Enter amount to deposit: ");
@@ -19,8 +18,16 @@ public class BankingService {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setDouble(1, amount);
             ps.setInt(2, accountId);
-
             ps.executeUpdate();
+
+            String transactionSql =
+                "INSERT INTO transactions (account_id, type, amount) VALUES (?, ?, ?)";
+
+            PreparedStatement transaction = con.prepareStatement(transactionSql);
+            transaction.setInt(1, accountId);
+            transaction.setString(2, "Deposit");
+            transaction.setDouble(3, amount);
+            transaction.executeUpdate();
 
             System.out.println("Money deposited successfully!");
 
@@ -31,7 +38,6 @@ public class BankingService {
         }
     }
 
-    // Withdraw money
     public void withdraw(Scanner sc, int accountId) {
 
         System.out.print("Enter amount to withdraw: ");
@@ -53,14 +59,24 @@ public class BankingService {
 
                 if (amount <= balance) {
 
-                    String sql = "UPDATE accounts SET balance = balance - ? WHERE account_id = ?";
+                    String sql =
+                        "UPDATE accounts SET balance = balance - ? WHERE account_id = ?";
 
                     PreparedStatement ps = con.prepareStatement(sql);
-
                     ps.setDouble(1, amount);
                     ps.setInt(2, accountId);
-
                     ps.executeUpdate();
+
+                    String transactionSql =
+                        "INSERT INTO transactions (account_id, type, amount) VALUES (?, ?, ?)";
+
+                    PreparedStatement transaction =
+                        con.prepareStatement(transactionSql);
+
+                    transaction.setInt(1, accountId);
+                    transaction.setString(2, "Withdraw");
+                    transaction.setDouble(3, amount);
+                    transaction.executeUpdate();
 
                     System.out.println("Money withdrawn successfully!");
 
@@ -79,7 +95,6 @@ public class BankingService {
         }
     }
 
-    // Check balance
     public void checkBalance(Scanner sc, int accountId) {
 
         String sql = "SELECT balance FROM accounts WHERE account_id = ?";
@@ -93,7 +108,9 @@ public class BankingService {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                System.out.println("Current Balance: ₹" + rs.getDouble("balance"));
+                System.out.println(
+                    "Current Balance: ₹" + rs.getDouble("balance")
+                );
             } else {
                 System.out.println("Account not found");
             }
