@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class BankingService {
 
+    // Deposit money
     public void deposit(Scanner sc, int accountId) {
 
         System.out.print("Enter amount to deposit: ");
@@ -14,8 +15,8 @@ public class BankingService {
 
         try {
             Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
 
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setDouble(1, amount);
             ps.setInt(2, accountId);
 
@@ -30,6 +31,7 @@ public class BankingService {
         }
     }
 
+    // Withdraw money
     public void withdraw(Scanner sc, int accountId) {
 
         System.out.print("Enter amount to withdraw: ");
@@ -65,12 +67,41 @@ public class BankingService {
                 } else {
                     System.out.println("Insufficient balance");
                 }
+
+            } else {
+                System.out.println("Account not found");
             }
 
             con.close();
 
         } catch (Exception e) {
             System.out.println("Withdrawal failed");
+        }
+    }
+
+    // Check balance
+    public void checkBalance(Scanner sc, int accountId) {
+
+        String sql = "SELECT balance FROM accounts WHERE account_id = ?";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, accountId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                System.out.println("Current Balance: ₹" + rs.getDouble("balance"));
+            } else {
+                System.out.println("Account not found");
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println("Unable to check balance");
         }
     }
 }
